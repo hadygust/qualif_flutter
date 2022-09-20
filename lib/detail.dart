@@ -92,7 +92,7 @@ class _DetailPageState extends State<DetailPage> {
                                 TextField(
                                   controller: chatController,
                                   decoration: const InputDecoration(
-                                      hintText: "Username",
+                                      hintText: "Chat",
                                       filled: true,
                                       fillColor: Colors.white,
                                       border: InputBorder.none),
@@ -119,42 +119,42 @@ class _DetailPageState extends State<DetailPage> {
                             const SizedBox(height: 10.0),
                             Container(
                                 // child: Expanded(
-                                child: ListView.builder(
-                                  itemCount: widget.people.comments.length,
-                                  itemBuilder: ((context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(widget.people
-                                              .comments[index].comment),
-                                          Text(
-                                              "Sent by: ${widget.people.comments[index].username}")
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                                ),
+                                // child: ListView.builder(
+                                //   itemCount: widget.people.comments.length,
+                                //   itemBuilder: ((context, index) {
+                                //     return Padding(
+                                //       padding: const EdgeInsets.all(8),
+                                //       child: Column(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.start,
+                                //         crossAxisAlignment:
+                                //             CrossAxisAlignment.start,
+                                //         children: [
+                                //           Text(widget.people
+                                //               .comments[index].comment),
+                                //           Text(
+                                //               "Sent by: ${widget.people.comments[index].username}")
+                                //         ],
+                                //       ),
+                                //     );
+                                //   }),
+                                // ),
                                 // ),
                                 )
                           ],
                         ),
                       ),
-                      // TextField(
-                      //   onSubmitted: (value) {
-                      //     handleAddComment();
-                      //   },
-                      //   controller: chatController,
-                      //   decoration: const InputDecoration(
-                      //       hintText: "Chat",
-                      //       // filled: true,
-                      //       fillColor: Colors.white,
-                      //       border: InputBorder.none),
-                      // )
+                      TextField(
+                        onSubmitted: (value) {
+                          handleAddComment();
+                        },
+                        controller: chatController,
+                        decoration: const InputDecoration(
+                            hintText: "Chat",
+                            // filled: true,
+                            fillColor: Colors.white,
+                            border: InputBorder.none),
+                      )
                     ],
                   ),
                   // child: Text("data"),
