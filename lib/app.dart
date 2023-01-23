@@ -5,14 +5,15 @@ import 'package:provider/provider.dart';
 import 'package:qualif_flutter/browse.dart';
 import 'package:qualif_flutter/home.dart';
 import 'package:qualif_flutter/login.dart';
+import 'package:qualif_flutter/main.dart';
 import 'package:qualif_flutter/provider/theme_provider.dart';
 
-int _idx = 1;
+int _idx = 0;
 
 class Application extends StatefulWidget {
   final String username;
-
-  Application({super.key, required this.username});
+  final Tinder tinder;
+  const Application({super.key, required this.username, required this.tinder});
 
   @override
   State<Application> createState() => _ApplicationState();
@@ -22,13 +23,13 @@ class _ApplicationState extends State<Application> {
 
   @override
   Widget build(BuildContext context) {
-    var pages = [HomePage(), BrowsePage(username: widget.username,)];
+    var pages = [HomePage(), BrowsePage(username: widget.username, tinder: widget.tinder,)];
 
     void logout(BuildContext context) {
       print("Logout");
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return const LoginPage();
+          return LoginPage(tinder: widget.tinder);
         },
       ), (route) => false);
     }
@@ -160,7 +161,7 @@ class _ApplicationState extends State<Application> {
                             ),
                             onPressed: () {
                               setState(() {
-                                _idx = 2;
+                                _idx = 0;
                               });
 
                               print(_idx);

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:qualif_flutter/main.dart';
 import 'package:qualif_flutter/model/comment.dart';
 import 'package:qualif_flutter/model/people.dart';
 
-List<String> comment = [];
-
-TextEditingController chatController = TextEditingController();
+TextEditingController commentController = TextEditingController();
 
 class DetailPage extends StatefulWidget {
   final People people;
   final String username;
-  const DetailPage({super.key, required this.people, required this.username});
+  final Tinder tinder;
+  const DetailPage({super.key, required this.people, required this.username, required this.tinder});
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -20,8 +20,21 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
-    void handleAddComment() {
-      String comment = chatController.text;
+
+    void printComments(){
+
+      int index = widget.tinder.people.indexWhere((element) => element.image == widget.people.image);
+
+      for (Comment s in widget.tinder.people[index].comments) {
+        print(s.comment);
+      }
+    }
+
+    void handleAddComment(comment) {
+      // String comment = commentController.text;
+
+      print(widget.people.comments.length);
+      printComments();
 
       if (comment.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -31,12 +44,21 @@ class _DetailPageState extends State<DetailPage> {
         );
       } else {
         setState(() {
-          widget.people.comments.add(
-              Comment(username: widget.username, comment: chatController.text));
+          int index = widget.tinder.people.indexWhere((element) => element.image == widget.people.image);
+          // widget.people.comments.add(
+          //     Comment(username: widget.username, comment: commentController.text));
+          widget.tinder.people[index].comments.add(
+              Comment(username: widget.username, comment: commentController.text));
         });
-
-        print("masuk");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Comment added"),
+          ),
+        );
+        // print("masuk");
       }
+
+      commentController.text = "";
     }
 
     return DefaultTabController(
@@ -90,14 +112,13 @@ class _DetailPageState extends State<DetailPage> {
                                       fontWeight: FontWeight.w400),
                                 ),
                                 TextField(
-                                  controller: chatController,
+                                  controller: commentController,
                                   decoration: const InputDecoration(
-                                      hintText: "Chat",
-                                      filled: true,
+                                      hintText: "Add Comment",
                                       fillColor: Colors.white,
                                       border: InputBorder.none),
                                   onSubmitted: (value) {
-                                    handleAddComment();
+                                    handleAddComment(value);
                                     // print()
                                   },
                                 )
@@ -107,58 +128,83 @@ class _DetailPageState extends State<DetailPage> {
                     ],
                   ),
                 ),
-                Container(
-                  child: Column(
-                    children: [
-                      Container(
+                // Container(
+                //   child: Column(
+                //     children: [
+                      SingleChildScrollView(
                         padding: const EdgeInsets.all(10.0),
                         // constraints: const BoxConstraints.expand(),
                         child: Column(
                           children: [
-                            const Text("Chat"),
+                            const Text("Comments"),
                             const SizedBox(height: 10.0),
+                            // Container(
+                            //     child: Expanded(
+                            //     child: ListView.builder(
+                            //       shrinkWrap: true,
+                            //       itemCount: widget.people.comments.length,
+                            //       itemBuilder: ((context, index) {
+                            //         return Padding(
+                            //           padding: const EdgeInsets.all(8),
+                            //           child: Column(
+                            //             mainAxisAlignment:
+                            //                 MainAxisAlignment.start,
+                            //             crossAxisAlignment:
+                            //                 CrossAxisAlignment.start,
+                            //             children: [ 
+                            //               Text(
+                            //                   widget.people.comments[index].comment),
+                            //               Text(
+                            //                   "Sent by: ${widget.people.comments[index].username}")
+                            //             ],
+                            //           ),
+                            //         );
+                            //       }),
+                            //     ),
+                            //     ),
+                            //     )
+
                             Container(
-                                // child: Expanded(
-                                // child: ListView.builder(
-                                //   itemCount: widget.people.comments.length,
-                                //   itemBuilder: ((context, index) {
-                                //     return Padding(
-                                //       padding: const EdgeInsets.all(8),
-                                //       child: Column(
-                                //         mainAxisAlignment:
-                                //             MainAxisAlignment.start,
-                                //         crossAxisAlignment:
-                                //             CrossAxisAlignment.start,
-                                //         children: [
-                                //           Text(widget.people
-                                //               .comments[index].comment),
-                                //           Text(
-                                //               "Sent by: ${widget.people.comments[index].username}")
-                                //         ],
-                                //       ),
-                                //     );
-                                //   }),
-                                // ),
-                                // ),
-                                )
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: widget.people.comments.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [ 
+                                          Text(
+                                              widget.people.comments[index].comment),
+                                          Text(
+                                              "Sent by: ${widget.people.comments[index].username}")
+                                        ],
+                                      ),
+                                    );
+                                    },
+                                ),
+                            ),
+                            
+                            TextField(
+                              onSubmitted: (value) {
+                                handleAddComment(value);
+                              },
+                              controller: commentController,
+                              decoration: const InputDecoration(
+                                  hintText: "Add Comment",
+                                  fillColor: Colors.white,
+                                  border: InputBorder.none),
+                            )
                           ],
                         ),
                       ),
-                      TextField(
-                        onSubmitted: (value) {
-                          handleAddComment();
-                        },
-                        controller: chatController,
-                        decoration: const InputDecoration(
-                            hintText: "Chat",
-                            // filled: true,
-                            fillColor: Colors.white,
-                            border: InputBorder.none),
-                      )
-                    ],
-                  ),
+                    // ],
+                  // ),
                   // child: Text("data"),
-                ),
+                // ),
               ],
             )));
   }

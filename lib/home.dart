@@ -9,11 +9,11 @@ class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   var content = [
-    Content(image: "/home/head.jpg", text: "Meet new people"),
-    Content(image: "/home/head.jpg", text: "Spice up your game"),
-    Content(image: "/home/head.jpg", text: "Be bold"),
-    Content(image: "/home/head.jpg", text: "Bro u down bad"),
-    Content(image: "/home/head.jpg", text: "Tolong jangan asal swipe"),
+    Content(image: "./assets/home/head.jpg", text: "Meet new people"),
+    Content(image: "./assets/home/head.jpg", text: "Spice up your game"),
+    Content(image: "./assets/home/head.jpg", text: "Be bold"),
+    Content(image: "./assets/home/head.jpg", text: "Bro u down bad"),
+    Content(image: "./assets/home/head.jpg", text: "Tolong jangan asal swipe"),
   ];
 
   @override

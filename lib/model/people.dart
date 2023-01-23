@@ -8,4 +8,5 @@ class People{
 
 
   People({required this.name, required this.description, required this.image});
+  People.withComment({required this.name, required this.description, required this.image, required this.comments});
 }

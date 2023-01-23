@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:qualif_flutter/app.dart';
+import 'package:qualif_flutter/main.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final Tinder tinder;
+  const LoginPage({super.key, required this.tinder});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -14,6 +16,10 @@ class _LoginPageState extends State<LoginPage> {
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  bool aplhanum(String text){
+    return text.contains(RegExp(r'[0-9]')) && text.contains(RegExp('^[a-zA-Z]+'));
+  }
   
   void handleLogin(){
     String username = usernameController.text;
@@ -26,7 +32,53 @@ class _LoginPageState extends State<LoginPage> {
         builder: (context){
         return AlertDialog(
             title: const Text("Error"),
-            content: const Text("Username length must be at leat 3 characters"),
+            content: const Text("Username length must be at least 3 characters"),
+            actions: [
+              TextButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                }, 
+                child: const Text("OK")
+            )],
+          );
+        }
+        
+      );
+
+      return;
+    }
+
+    if(!aplhanum(password)){
+
+      showDialog(
+        context: context, 
+        builder: (context){
+        return AlertDialog(
+            title: const Text("Error"),
+            content: const Text("Password must be alphanumeric"),
+            actions: [
+              TextButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                }, 
+                child: const Text("OK")
+            )],
+          );
+        }
+        
+      );
+
+      return;
+    }
+
+    if(!password.contains(RegExp(r'^[a-zA-Z0-9]+$'))){
+
+      showDialog(
+        context: context, 
+        builder: (context){
+        return AlertDialog(
+            title: const Text("Error"),
+            content: const Text("Password must not contain special characters"),
             actions: [
               TextButton(
                 onPressed: (){
@@ -44,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
 
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
       builder: (context) {
-        return Application(username: username,);
+        return Application(username: username, tinder: widget.tinder,);
       }), (route) => false);
   }
 

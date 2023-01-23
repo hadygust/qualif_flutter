@@ -3,31 +3,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:qualif_flutter/detail.dart';
+import 'package:qualif_flutter/main.dart';
+import 'package:qualif_flutter/model/comment.dart';
 import 'package:qualif_flutter/model/people.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class BrowsePage extends StatelessWidget {
   final String username;
-  BrowsePage({super.key, required this.username});
+  final Tinder tinder;
+  BrowsePage({super.key, required this.username, required this.tinder});
 
-  var people = [
-    People(
-        name: "Budiman Oey",
-        description: "Om om cabul",
-        image: "/people/1.png"),
-    People(
-        name: "Budiman Oey",
-        description: "Om om cabul",
-        image: "/people/2.png"),
-    People(
-        name: "Budiman Oey",
-        description: "Om om cabul",
-        image: "/people/3.png"),
-    People(
-        name: "Budiman Oey",
-        description: "Om om cabul",
-        image: "/people/4.png"),
-  ];
+  // var people = [
+  //   People.withComment(
+  //       name: "Budiman Oey",
+  //       description: "Om om cabul",
+  //       image: "./assets/1.png",
+  //       comments: [
+  //           Comment(username: "asdasd", comment: "Mantep geming")
+  //         ]),
+  //   People(
+  //       name: "Budiman Oey",
+  //       description: "Om om cabul",
+  //       image: "./assets/2.png"),
+  //   People(
+  //       name: "Budiman Oey",
+  //       description: "Om om cabul",
+  //       image: "./assets/3.png"),
+  //   People(
+  //       name: "Budiman Oey",
+  //       description: "Om om cabul",
+  //       image: "./assets/4.png"),
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +42,12 @@ class BrowsePage extends StatelessWidget {
     return SizedBox(
       height: size.height,
       child: CarouselSlider(
-        items: people
+        items: tinder.people
             .map(
               (e) => GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return DetailPage(people: e, username: username,);
+                    return DetailPage(people: e, username: username, tinder: tinder,);
                   },));
                 },
                 child: Card(
